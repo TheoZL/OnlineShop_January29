@@ -1,0 +1,160 @@
+<ng-container *ngIf="isLoading">
+    <div class="progress progress-modal">
+        <div class="progress-bar progress-bar-striped progress-bar-animated bg-primary" role="progressbar"
+            style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+    </div>
+</ng-container>
+<div class="modal-content">
+    <div class="modal-header">
+        <div class="modal-title h4" id="example-modal-sizes-title-lg">
+            <i class="icon-2x text-dark-50 flaticon-user-add mx-2"></i> Crear Usuario
+        </div>
+    </div>
+    <div class="overlay overlay-block cursor-default modal-body" style="min-height: 404px">
+        <ng-container *ngIf="$isLoading | async">
+            <div class="overlay-layer bg-transparent">
+                <div class="spinner spinner-lg spinner-success"></div>
+            </div>
+        </ng-container>
+
+        <!-- aqui va el formulario para la creacion de usuario -->
+
+        <form action="#" class="form form-label-right" [formGroup]="formGroup">
+            <div class="form-group row">
+                <!-- campo de nombre -->
+                <div class="col-lg-6">
+                    <label for="form-label">Nombre:</label>
+                    <!-- input para el nombre -->
+                    <input type="text" 
+                            class="form-control from-control-solid from-control-lg" 
+                            name="name" 
+                            placeholder="Nombre" 
+                            autocomplete="off" 
+                            [class.is-invalid]="isControlInvalid('name')"
+                            [class.is-valid]="isControlValid('name')"
+                            formControlName="name"
+                    >
+                    <!-- esto es codigo de validaciones de internet -->
+                    <div class="valid-feedback" *ngIf="isControlValid('name')">
+                        El nombre se ingresó correctamente
+                    </div>
+                    <div class="invalid-feedback" *ngIf="controlHasError('required', 'name')">Se requiere el nombre completo</div>
+                    <div class="invalid-feedback" *ngIf="controlHasError('minlength', 'name')">El nombre debe tener al menos 3 letras</div>
+                    <div class="invalid-feedback" *ngIf="controlHasError('maxlength', 'name')">El nombre debe tener un máximo de 99 letras</div>
+                </div>
+                <!-- campo de apellido -->
+                <div class="col-lg-6">
+                    <label for="form-label">Apellidos:</label>
+                    <!-- input para el nombre -->
+                    <input type="text" 
+                            class="form-control from-control-solid from-control-lg" 
+                            name="lastname" 
+                            placeholder="Apellidos" 
+                            autocomplete="off" 
+                            [class.is-invalid]="isControlInvalid('lastname')"
+                            [class.is-valid]="isControlValid('lastname')"
+                            formControlName="lastname"
+                    >
+                    <!-- esto es codigo de validaciones de internet -->
+                    <div class="valid-feedback" *ngIf="isControlValid('lastname')">
+                        El nombre se ingresó correctamente
+                    </div>
+                    <div class="invalid-feedback" *ngIf="controlHasError('required', 'lastname')">Se requiere los apellidos</div>
+                    <div class="invalid-feedback" *ngIf="controlHasError('minlength', 'lastname')">Los apellidos deben tener al menos 3 letras</div>
+                    <div class="invalid-feedback" *ngIf="controlHasError('maxlength', 'lastname')">Los apellidos deben tener un máximo de 99 letras</div>
+                </div>
+            </div>
+            <!-- campo del email -->
+            <div class="form-group row justify-content-left">
+                <div class="col-lg-10">
+                    <label for="form-label">Correo electrónico:</label>
+                    <!-- input para el nombre -->
+                    <input type="text" 
+                            class="form-control from-control-solid from-control-lg" 
+                            name="email" 
+                            placeholder="example@example.com" 
+                            autocomplete="off" 
+                            [class.is-invalid]="isControlInvalid('email')"
+                            [class.is-valid]="isControlValid('email')"
+                            formControlName="email"
+                    >
+                    <!-- esto es codigo de validaciones de internet -->
+                    <div class="valid-feedback" *ngIf="isControlValid('email')">
+                        El nombre se ingresó correctamente
+                    </div>
+                    <div class="invalid-feedback" *ngIf="controlHasError('required', 'email')">El formato no coincide con correo electrónico</div>
+                    <div class="invalid-feedback" *ngIf="controlHasError('minlength', 'email')">El correo electronico debe tener al menos 7 letras</div>
+                    <div class="invalid-feedback" *ngIf="controlHasError('maxlength', 'email')">El correo electronico debe tener un máximo de 240 letras</div>
+                </div>
+            </div>
+            <!-- campo de seleccion rol -->
+            <div class="form-group row justify-content-left">
+                <div class="col-lg-10">
+                    <label for="form-label">Rol usuario:</label>
+                    <select name="type_user" class="form-control form-control-solid form-control-lg" 
+                    formControlName="type_user">
+                        <option value="0">Selecciona</option>
+                        <option value="1">Cliente</option>
+                        <option value="2">ADMINISTRADOR GENERAL</option>
+                        <option value="3">ADMINISTRADOR CREDITO</option>
+                        <option value="4">ADMINISTRADOR TIENDA</option>
+                </select>
+                </div>
+            </div>
+            <!-- campo de contraseñas -->
+            <div class="form-group row">
+                <!-- campo de contraseña -->
+                <div class="col-lg-6">
+                    <label for="form-label">Contraseña:</label>
+                    <!-- input para el contraseña -->
+                    <input type="password" 
+                            class="form-control from-control-solid from-control-lg" 
+                            name="password" 
+                            placeholder="" 
+                            autocomplete="off" 
+                            [class.is-invalid]="isControlInvalid('password')"
+                            [class.is-valid]="isControlValid('password')"
+                            formControlName="password"
+                    >
+                    <!-- esto es codigo de validaciones de internet -->
+                    <div class="valid-feedback" *ngIf="isControlValid('password')">
+                        La contraseña es valida.
+                    </div>
+                    <div class="invalid-feedback" *ngIf="controlHasError('required', 'rpassword')">Se requiere crear una contraseña</div>
+                    <div class="invalid-feedback" *ngIf="controlHasError('minlength', 'rpassword')">La contraseña deben tener al menos 8 caracteres</div>
+                    <div class="invalid-feedback" *ngIf="controlHasError('maxlength', 'rpassword')">La contraseña deben tener un máximo de 240 caracteres</div>
+                </div>
+                <!-- campo de apellido -->
+                <div class="col-lg-6">
+                    <label for="form-label">Ingresa de nuevo la contraseña:</label>
+                    <!-- input para el nombre -->
+                    <input type="password" 
+                            class="form-control from-control-solid from-control-lg" 
+                            name="Repite la contraseña"
+                            placeholder="" 
+                            autocomplete="off" 
+                            [class.is-invalid]="isControlInvalid('rpassword')"
+                            [class.is-valid]="isControlValid('rpassword')"
+                            formControlName="rpassword"
+                    >
+                    <!-- esto es codigo de validaciones de internet -->
+                    <div class="valid-feedback" *ngIf="isControlValid('rpassword')">
+                        
+                    </div>
+                    <div class="invalid-feedback" *ngIf="controlHasError('required', 'rpassword')">Se requiere repetir la contraseña</div>
+                    <div class="invalid-feedback" *ngIf="controlHasError('minlength', 'rpassword')">La contraseña deben tener al menos 8 caracteres</div>
+                    <div class="invalid-feedback" *ngIf="controlHasError('maxlength', 'rpassword')">La contraseña deben tener un máximo de 240 caracteres</div>
+                </div>
+            </div>
+        </form>
+
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-light btn-elevate mr-2" (click)="modal.dismiss()">
+            Cancelar
+        </button>
+        <button type="submit" class="btn btn-primary tn-elevate mr-2" (click)="save()" [disabled]="formGroup.invalid">
+            Guardar
+        </button>
+    </div>
+</div>

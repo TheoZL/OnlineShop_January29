@@ -1,0 +1,5 @@
+/* Establece un alto máximo para el contenedor */
+.scrollable-container {
+    max-height: 300px; /* Ajusta esto según tus necesidades */
+    overflow-y: auto; /* Activa la barra de desplazamiento vertical cuando sea necesario */
+}

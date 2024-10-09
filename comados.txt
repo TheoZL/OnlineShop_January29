@@ -1,0 +1,24 @@
+angular
+
+npm install
+
+laravel
+
+composer install
+
+
+nuevo componente angular 
+ng generate component
+
+
+Instalar note.js 12
+comandos para down cli
+npm install -g npm@9.7.2
+npm install -g @angular/cli@13.3.11
+
+
+php artisan storage:link
+
+------------------------------------------------------------
+
+

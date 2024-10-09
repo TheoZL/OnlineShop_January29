@@ -1,0 +1,102 @@
+<!-- breadcrumbs -->
+<div class="container">
+    <div class="breadcrumbs">
+        <a href="index-1.html"><i class="las la-home"></i></a>
+        <a href="#" class="active">Registro</a>
+    </div>
+</div>
+
+<!--register wrapper-->
+<div class="register_wrap section_padding_b">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-xl-5 col-lg-7 col-md-9">
+                <div class="register_form padding_default shadow_sm">
+                    <h4 class="title_2">Crea una cuenta</h4>
+                    <p class="mb-4 text_md">Regístrese gratis.</p>
+                    <form action="">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="single_billing_inp">
+                                    <label>Nombre <span>*</span></label>
+                                    <input type="text" [(ngModel)]="name" name="name" placeholder="Michael, Marco, Carmen, etc">
+                                </div>
+                            </div>
+
+                            <div class="col-12">
+                                <div class="single_billing_inp">
+                                    <label>Apellido<span>*</span></label>
+                                    <input type="text" [(ngModel)]="lastname" name="lastname" placeholder="Sanchez, Mejia, Quiros, etc">
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="single_billing_inp">
+                                    <label>Correo Electrónico <span>*</span></label>
+                                    <input type="email" [(ngModel)]="email" name="email" placeholder="Correo@correo.com">
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="single_billing_inp">
+                                    <label>Contraseña <span>*</span></label>
+                                    <input type="password" [(ngModel)]="password" name="password" placeholder="Contraseña">
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="single_billing_inp">
+                                    <label>Confirmar Contraseña <span>*</span></label>
+                                    <input type="password" [(ngModel)]="verify_password" name="verify_password" placeholder="vuelve a escribir la contraseña">
+                                </div>
+                            </div>
+
+                            <!-- <form action="?" method="POST">
+                                <div class="g-recaptcha" data-sitekey="6LdmAbknAAAAABzhu2U_JfAMTSbjZ3OwW3FE2vF8"></div>
+                                <br/>
+                                <input type="submit" value="Submit">
+                            </form> -->
+
+                            <div class="col-12 mt-2">
+                                <div class="custom_check check_2 d-flex align-items-center">
+                                    <input (change)="onChange($event)" type="checkbox" class="check_inp" hidden id="save-default">
+                                    <label for="save-default">He leído y estoy de acuerdo con <a
+                                            href="#" class="text-color">Términos y condiciones</a>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="d-flex align-items-center justify-content-center py-3">
+                                <re-captcha [siteKey]='"6LeIAwIoAAAAAKy-e1CsClqiY9N5V36isXb2uqVu"' (resolved)="resolved($event)" errorMode="handled">Captcha</re-captcha>
+                            </div>
+                            <div class="col-12 mt-3">
+                                <button type="submit" (click)="register()" class="default_btn xs_btn rounded px-4 d-block w-100">Crear cuenta</button>
+                            </div>
+                        </div>
+                    </form>
+
+                    <!-- <div class="dif_regway my-3">
+                        <span class="txt">O regístrate con</span>
+                    </div>
+
+                    <div class="d-flex">
+                        <button class="default_btn xs_btn rounded px-4 d-block w-50 text-capitalize bg-facebook">
+                            <i class="fab fa-facebook-f me-2"></i> Facebook
+                        </button>
+                        <button class="default_btn xs_btn rounded px-4 d-block w-50 ms-3 text-capitalize bg-google">
+                            <i class="fab fa-google me-2"></i> Google
+                        </button>
+                    </div> -->
+
+                    <p class="text-center mt-3 mb-0">Ya tienes una cuenta.? <a routerLink="/auth/login"
+                            class="text-color">Inicia sesión ahora</a></p>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://www.google.com/recaptcha/api.js" async defer></script>
+
+<script>
+    function onSubmit(token) {
+        document.getElementById("demo-form").submit();
+    }
+</script>

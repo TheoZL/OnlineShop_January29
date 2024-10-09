@@ -1,0 +1,458 @@
+<!-- top header -->
+<header class="home-2 d-none d-lg-block">
+    <!-- <div class="logo d-flex align-items-center justify-content-center">
+        <a routerLink="/">
+            <img loading="lazy" src="assets/images/svg/logo.svg" alt="logo" style="width: 200px; height: 200px;">
+        </a>
+    </div>     -->
+    <div class="container">
+        <div class="d-flex align-items-center">
+            <div class="logo">
+                <a routerLink="/">
+                    <img loading="lazy" class="logo_p" src="assets/images/logo.png" alt="logo">
+                </a>
+            </div>
+            <ul class="nav_bar flex-grow-1">
+                <li><a routerLink="/">Inicio</a></li>
+                <li class="withsubs">
+                    <a >Comercio <span><i class="las la-angle-down"></i></span></a>
+                    <ul class="subnav">
+                        <li><a routerLink="/carrito-de-compra">Carrito de la compra</a></li>
+                        <li><a href="/lista-de-productos-totales">Vista del producto</a></li>
+                    </ul>
+                </li>
+                <li class="withsubs">
+                    <a >Páginas <span><i class="las la-angle-down"></i></span></a>
+                    <div class="subnav py-3 px-2 d-flex gx-4">
+                        <div class="single_subnav">
+                            <h5 class="text_lg ps-3 mb-2">Otras páginas</h5>
+                            <ul>
+                                <li><a href="#">About us</a></li>
+                                <li><a  onclick="scrollToFooter()">Contacta con nosotros</a></li>
+                            </ul>
+                        </div>
+                        <div class="single_subnav">
+                            <h5 class="text_lg ps-3 mb-2">Páginas de cuenta</h5>
+                            <ul>
+                                <li><a href="/perfil-del-cliente?selected_menu=1">Mi cuenta</a></li>
+                                <li><a routerLink="/auth/login" *ngIf="!user">Login</a></li>
+                                <li><a routerLink="/auth/registro" *ngIf="!user">Registro</a></li>
+                                <li><a href="forgot-password.html">¿Has olvidado tu contraseña?</a></li>
+                            </ul>
+                        </div>
+                        <div class="single_subnav">
+                            <h5 class="text_lg ps-3 mb-2">Página de pago</h5>
+                            <ul>
+                                <li><a routerLink="/proceso-de-pago">Pago</a></li>
+                                <li><a href="/perfil-del-cliente?selected_menu=6">Lista de Deseos</a></li>
+                                <li><a href="/perfil-del-cliente?selected_menu=4">Órdenes</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </li>
+                <li><a onclick="scrollToFooter()">contacto</a></li>
+                <li class="withsubs">
+                    <a *ngIf="!user">Session <span><i class="las la-angle-down"></i></span></a>
+                    <ul class="subnav">
+                        <li><a routerLink="/auth/login">Inicia sesión</a></li>
+                        <li><a routerLink="/auth/registro">Registrarse</a></li>
+                    </ul>
+                </li>
+                <!-- <li class="tophead_items ms-auto">
+                    <div class="me-3" *ngIf="!user">
+                        <div class="me-2 align-items-between">
+                            <a class="text-semibold default_btn second p-2" routerLink="/auth/registro">Registrarse</a>
+                        </div>
+                    </div>
+                    <div class="me-3" *ngIf="!user">
+                        <div class="me-2 align-items-between">
+                            <a class="text-semibold me-0 default_btn second p-2" routerLink="/auth/login">Inicia sesión</a>
+                        </div>
+                    </div>
+                </li> -->
+            </ul>
+        </div>
+    </div>
+</header>
+
+<!-- navbar -->
+<nav class="home-2">
+    <div class="container">
+        <div class="d-flex align-items-center justify-content-between">
+            <a routerLink="/" class="mobile_logo d-block d-lg-none">
+                <img loading="lazy"  src="assets/images/logo.png" alt="logo" style="width: 30%;">
+            </a>
+            <div class="all_category d-none d-lg-block">
+                <div class="bars text-white d-flex align-items-center justify-content-center">
+                    <span class="icon">
+                        <i class="las la-bars"></i>
+                    </span>
+                    <span class="icon_text">CATEGORIAS</span>
+                </div>
+                <div class="sub_categories " [class.active]="isRouterActive()">
+                    <h5 class="d-block position-relative d-lg-none subcats_title text-sm-start">
+                        Todas las Categorias
+                    </h5>
+                    <ng-container *ngFor="let categorie of categories">
+                        <a [href]="'/lista-de-productos-totales?categorie_id='+categorie.id" class="singlecats">
+                            <span class="img_wrp">
+                                <i [attr.class]="categorie.icono"></i>
+                            </span>
+                            <span class="txt">{{ categorie.name }}</span>
+                        </a>
+                    </ng-container>
+                </div>
+            </div>
+            <div class="search_wrap d-none d-lg-block">
+
+                <div class="search d-flex">
+                    <div class="search_category text-sm-start">
+                        <select class="nice_select text-sm-start">
+                            <option value="" class="text-sm-start">Todos</option>
+                        </select>
+                    </div>
+                    <div class="search_input">
+                        <input type="text" [(ngModel)]="search_product" (keyup.enter)="searchForEnter()" placeholder="Buscar Producto..." id="show_suggest" #filter>
+                    </div>
+                    <div class="search_subimt">
+                        <button>
+                            <span class="d-none d-sm-inline-block" (click)="searchForEnter()">Buscar</span>
+                            <span class="d-sm-none d-inline-block"><i class="icon-search-left"></i></span>
+                        </button>
+                    </div>
+                </div>
+                <div class="search_suggest shadow-sm">
+                    <div class="search_result_product">
+                        <!-- <a href="product-view.html" class="single_sresult_product">
+                            <div class="sresult_img">
+                                <img loading="lazy"  src="assets/images/laptop-2.png" alt="product">
+                            </div>
+                            <div class="sresult_content">
+                                <h4>HP Pavilion 15</h4>
+                                <div class="price">
+                                    <span class="org_price">$45.00</span>
+                                </div>
+                            </div>
+                        </a> -->
+                        <ng-container *ngFor="let sugerencia of sugerencias">
+                            <a [href]="'/producto/'+sugerencia.slug" class="single_sresult_product">
+                                <div class="sresult_img">
+                                    <img loading="lazy"  [src]="sugerencia.imagen" alt="product">
+                                </div>
+                                <div class="sresult_content">
+                                    <h4>{{ sugerencia.title }}</h4>
+                                    <div class="price">
+                                        <span class="org_price">₡{{ sugerencia.price_colones }}</span>
+                                    </div>
+                                </div>
+                            </a>
+                        </ng-container>
+
+
+                    </div>
+                </div>
+            </div>
+            <div class="header_icon d-flex align-items-center">
+                <a href="/perfil-del-cliente?selected_menu=6" class="icon_wrp text-center Lista de Deseos ms-0">
+                    <span class="icon">
+                        <i class="icon-heart"></i>
+                    </span>
+                    <span class="icon_text">Lista de Deseos</span>
+                    <span class="pops">{{ listWish.length }}</span>
+                </a>
+                <div class="shopcart">
+                    <a routerLink="/carrito-de-compra" class="icon_wrp text-center d-none d-lg-block">
+                        <span class="icon">
+                            <i class="icon-cart"></i>
+                        </span>
+                        <span class="icon_text">Carrito</span>
+                        <span class="pops">{{ listCarts.length }}</span>
+                    </a>
+                    <div class="shopcart_dropdown">
+                        <div class="cart_droptitle">
+                            <h4 class="text_lg">{{ listCarts.length }} Items</h4>
+                        </div>
+                        <div class="cartsdrop_wrap">
+                        <ng-container *ngFor="let cart of listCarts">
+                            <a class="single_cartdrop mb-3">
+                                <span class="remove_cart" (click)="removeItem(cart)"><i class="las la-times"></i></span>
+                                <div class="cartdrop_img">
+                                    <img loading="lazy"  [src]="cart.product.imagen" alt="product">
+                                </div>
+                                <div class="cartdrop_cont">
+                                    <h5 class="text_lg mb-0 default_link">
+                                        <a [href]="'/producto/'+cart.product.slug">{{ cart.product.title }}</a>
+                                    </h5>
+                                    <p class="mb-0 text_xs text_p">Cantidad: {{ cart.cantidad }} <span class="ms-2">₡{{ cart.total }}</span></p>
+                                </div>
+                            </a>
+                        </ng-container>
+
+                            <!-- <a href="product-view.html" class="single_cartdrop">
+                                <span class="remove_cart"><i class="las la-times"></i></span>
+                                <div class="cartdrop_img">
+                                    <img loading="lazy"  src="assets/images/headphone-2.png" alt="product">
+                                </div>
+                                <div class="cartdrop_cont">
+                                    <h5 class="text_lg mb-0 default_link">
+                                        Men casual shoes
+                                    </h5>
+                                    <p class="mb-0 text_xs text_p">x1 <span class="ms-2">$450</span></p>
+                                </div>
+                            </a> -->
+                        </div>
+                        <div class="total_cartdrop">
+                            <h4 class="text_lg text-uppercase mb-0">Sub Total:</h4>
+                            <h4 class="text_lg mb-0 ms-2">₡{{ TotalPrice }}</h4>
+                        </div>
+                        <div class="cartdrop_footer d-flex mt-3">
+                            <a routerLink="/carrito-de-compra" class="default_btn w-50 text_xs px-1">Ver Carrito</a>
+                            <a routerLink="/proceso-de-pago" class="default_btn second ms-3 w-50 text_xs px-1">Pagar</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="position-relative myacwrap">
+                    <a href="javascript:void(0)" class="icon_wrp text-center myacc">
+                        <span class="icon">
+                            <i class="icon-user-line"></i>
+                        </span>
+                        <span class="icon_text">Cuenta</span>
+                    </a>
+                    <div class="myacc_cont">
+                        <div class="ac_join">
+                            <p *ngIf="user">Bienvenido {{ user.name }} a January 29</p>
+                            <p *ngIf="!user">Bienvenido a January 29</p>
+
+                            <div class="account_btn d-flex flex-column justify-content-between">
+                                <a *ngIf="!user" routerLink="/auth/registro" class="default_btn second">Registrarse</a>
+                                <a *ngIf="!user" routerLink="/auth/login" class="default_btn second">Iniciar sesión</a>
+                            </div>
+                        </div>
+                        <div class="ac_links" *ngIf="user">
+                            <a href="/perfil-del-cliente?selected_menu=1" class="myac">
+                                <i class="lar la-id-card"></i>
+                                Mi cuenta
+                            </a>
+                            <a href="/perfil-del-cliente?selected_menu=4">
+                                <i class="las la-gift"></i>
+                                Mis Ordenes
+                            </a>
+                            <a href="/perfil-del-cliente?selected_menu=6">
+                                <i class="lar la-heart"></i>
+                                Deseados 
+                            </a>
+                            <a routerLink="/carrito-de-compra">
+                                <i class="icon-cart"></i>
+                                Mi Carrito
+                            </a>
+                            <a href="#" onclick="return false;" *ngIf="user" (click)="logout()">
+                                <i class="las la-power-off"></i>
+                                Cerrar Sesión
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</nav>
+
+<!-- mobile bottom bar -->
+<div class="mobile_bottombar d-block d-lg-none">
+    <div class="header_icon">
+        <a href="javascript:void(0)" class="icon_wrp text-center open_menu">
+            <span class="icon">
+                <i class="las la-bars"></i>
+            </span>
+            <span class="icon_text">Menú</span>
+        </a>
+        <a href="javascript:void(0)" class="icon_wrp text-center open_category">
+            <span class="icon">
+                <i class="icon-list-ul"></i>
+            </span>
+            <span class="icon_text">Categorias</span>
+        </a>
+        <a href="javascript:void(0)" class="icon_wrp text-center" id="src_icon">
+            <span class="icon">
+            <i class="icon-search-left"></i>
+            </span>
+            <span class="icon_text">Buscar</span>
+        </a>
+        <a href="javascript:void(0)" class="icon_wrp crt text-center" id="openCart">
+            <span class="icon">
+                <i class="icon-cart"></i>
+            </span>
+            <span class="icon_text">Carrito</span>
+            <span class="pops">{{ listCarts.length }}</span>
+        </a>
+    </div>
+</div>
+
+<!-- mobile menu -->
+<div class="mobile_menwrap d-lg-none" id="mobile_menwrap">
+    <div class="mobile_menu_2">
+        <h5 class="mobile_title">
+            Menú
+            <span class="sidebarclose" id="menuclose">
+                <i class="las la-times"></i>
+            </span>
+        </h5>
+        <ul>
+            <li><a routerLink="/">Inicio</a></li>
+
+            <li class="withsub">
+                <a href="javascript:void(0)">
+                    Comercio
+                </a>
+                <div class="submn">
+                    <a routerLink="/carrito-de-compra">Carrito de la compra</a>
+                    <a href="/lista-de-productos-totales">Vista del producto</a>
+                </div>
+            </li>
+            <li class="withsub">
+                <a href="javascript:void(0)">
+                    Mi cuenta
+                </a>
+                <div class="submn">
+                    <a href="/perfil-del-cliente?selected_menu=1">Mi cuenta</a>
+                    <a routerLink="/auth/login">Login</a>
+                    <a routerLink="/auth/registro">Register</a>
+                    <a href="#">Forgot password</a>
+                </div>
+            </li>
+            <li class="withsub">
+                <a href="javascript:void(0)">
+                    Otras páginas
+                </a>
+                <div class="submn">
+                    <a href="/perfil-del-cliente?selected_menu=6">Lista de Deseos</a>
+                    <a href="/perfil-del-cliente?selected_menu=4">Órdenes</a>
+                    <a  onclick="scrollToFooter()">Contacta con nosotros</a>
+                </div>
+            </li>
+        </ul>
+    </div>
+</div>
+
+<!--  mobile cart -->
+<div class="mobile_menwrap d-lg-none" id="mobileCart">
+    <div class="mobile_cart_wrap d-flex flex-column">
+        <h5 class="mobile_title">
+            Carrito
+            <span class="sidebarclose" id="mobileCartClose">
+                <i class="las la-times"></i>
+            </span>
+        </h5>
+        <div class="px-3 py-3 flex-grow-1 d-flex flex-column">
+            <div class="cart_droptitle">
+                <h4 class="text_lg">{{ listCarts.length }} Items</h4>
+            </div>
+            <div class="cartsdrop_wrap">
+                <ng-container *ngFor="let cart of listCarts">
+                <a class="single_cartdrop mb-3">
+                    <span class="remove_cart" (click)="removeItem(cart)"><i class="las la-times"></i></span>
+                    <div class="cartdrop_img">
+                        <img loading="lazy"  [src]="cart.product.imagen" alt="product">
+                    </div>
+                    <div class="cartdrop_cont">
+                        <h5 class="text_lg mb-0 default_link">
+                            <a [href]="'/producto/'+cart.product.slug">{{ cart.product.title }}</a>
+                        </h5>
+                        <p class="mb-0 text_xs text_p">Cantidad: {{ cart.cantidad }} <span class="ms-2">₡{{ cart.total }}</span></p>
+                    </div>
+                </a>
+                </ng-container>
+                <!-- <a href="product-view.html" class="single_cartdrop">
+                    <span class="remove_cart"><i class="las la-times"></i></span>
+                    <div class="cartdrop_img">
+                        <img loading="lazy"  src="assets/images/headphone-2.png" alt="product">
+                    </div>
+                    <div class="cartdrop_cont">
+                        <h5 class="text_lg mb-0 default_link">
+                            Men casual shoes
+                        </h5>
+                        <p class="mb-0 text_xs text_p">x1 <span class="ms-2">$450</span></p>
+                    </div>
+                </a> -->
+            </div>
+            <div class="mt-auto">
+                <div class="total_cartdrop">
+                    <h4 class="text_lg text-uppercase mb-0">Sub Total:</h4>
+                    <h4 class="text_lg mb-0 ms-2">₡{{ TotalPrice }}</h4>
+                </div>
+                <div class="cartdrop_footer mt-3 d-flex">
+                    <a routerLink="/carrito-de-compra" class="default_btn w-50 text_xs px-1">Ver Carrito</a>
+                    <a routerLink="/proceso-de-pago" class="default_btn second ms-3 w-50 text_xs px-1">Pagar</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- mobile searchbar -->
+<div class="mobile_search_bar">
+    <div class="mobile_search_text">
+        <p>¿Qué estás buscando?</p>
+        <span class="close_mbsearch" id="close_mbsearch">
+            <i class="las la-times"></i>
+        </span>
+    </div>
+    <div>
+        <input type="text" [(ngModel)]="search_product" (keyup.enter)="searchForEnter()" placeholder="Producto..." #filter>
+        <button>
+            <i class="icon-search-left" (click)="searchForEnter()"></i>
+        </button>
+    </div>
+
+    <div class="search_result_product">
+
+        <ng-container *ngFor="let sugerencia of sugerencias">
+            <a [href]="'/producto/'+sugerencia.slug" class="single_sresult_product">
+                <div class="sresult_img">
+                    <img loading="lazy"  [src]="sugerencia.imagen" alt="product">
+                </div>
+                <div class="sresult_content">
+                    <h4>{{ sugerencia.title }}</h4>
+                    <div class="price">
+                        <span class="org_price">₡{{ sugerencia.price_colones }}</span>
+                    </div>
+                </div>
+            </a>
+        </ng-container>
+
+        <a href="product-view.html" class="single_sresult_product">
+            <div class="sresult_img">
+                <img loading="lazy"  src="assets/images/laptop-2.png" alt="product">
+            </div>
+            <div class="sresult_content">
+                <h4>HP Pavilion 15</h4>
+                <div class="price">
+                    <span class="org_price">$45.00</span>
+                    <span class="prev_price">$55.45</span>
+                </div>
+            </div>
+        </a>
+        
+    </div>
+</div>
+
+<!-- mobile category -->
+<div class="mobile_menwrap d-lg-none" id="mobile_catwrap">
+    <div class="sub_categories">
+        <h5 class="mobile_title">
+            Categorias
+            <span class="sidebarclose" id="catclose">
+                <i class="las la-times"></i>
+            </span>
+        </h5>
+        <ng-container *ngFor="let categorie of categories">
+            <a [href]="'/lista-de-productos-totales?categorie_id='+categorie.id" class="singlecats">
+                <span class="img_wrp">
+                    <i [attr.class]="categorie.icono"></i>
+                </span>
+                <span class="txt">{{ categorie.name }}</span>
+            </a>
+        </ng-container>
+    </div>
+</div>

@@ -1,0 +1,6 @@
+front_tienda/node_modules/
+front_admin_tienda/node_modules/
+back_credito/vendor/
+back_tienda/vendor/
+front_tienda/dist/
+front_admin_tienda/dist/

@@ -1,0 +1,1 @@
+{"ast":null,"code":"import { environment } from \"src/environments/environment\";\nexport const URL_BACKEND = environment.URL_BACKEND;\nexport const URL_SERVICES = environment.URL_SERVICES;\nexport const URL_FRONTEND = environment.URL_FRONTEND;","map":null,"metadata":{},"sourceType":"module"}

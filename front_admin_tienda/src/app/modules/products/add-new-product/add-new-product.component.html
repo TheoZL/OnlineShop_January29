@@ -1,0 +1,168 @@
+<div class="card card-custom gutter-b">
+    <div class="card-header">
+        <div class="card-title">
+            <h3 class="card-label"><i class="icon-2x text-dark-50 flaticon2-tools-and-utensils mx-2"></i> Agregar Nuevo
+                Producto</h3>
+        </div>
+    </div>
+    <div class="card-body">
+        <ng-container *ngIf="isLoading$ | async">
+            <span class="spinner spinner-lg spinner-success"></span>
+        </ng-container>
+        <div class="form-group row">
+            <div class="col-lg-5">
+                <label for="form-label">Nombre del Producto:</label>
+                <!-- input para el nombre del producto -->
+                <input type="text" class="form-control from-control-solid from-control-lg" name="title"
+                    placeholder="Nombre" autocomplete="off" [(ngModel)]="title">
+            </div>
+
+            <div class="col-lg-3">
+                <label for="form-label">SKU:</label>
+                <!-- input para el sku -->
+                <input type="text" class="form-control from-control-solid from-control-lg" name="sku" placeholder="sku"
+                    autocomplete="off" [(ngModel)]="sku">
+            </div>
+
+            <div class="col-lg-3">
+                <label for="form-label">Categoría:</label>
+                <select name="categorie_id" class="form-control form-control-solid form-control-lg"
+                    [(ngModel)]="categorie_id">
+                    <option value="">Ninguna</option>
+                    <ng-container *ngFor="let categorie of categories">
+                        <option [value]="categorie.id">{{ categorie.name }}</option>
+                    </ng-container>
+                    <option value="">Ninguna</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <div class="col-lg-3">
+                <label for="form-label">Precio en Colones:</label>
+                <!-- input en colones -->
+                <input type="text" class="form-control from-control-solid from-control-lg" name="price_colones"
+                    placeholder="₡" autocomplete="off" [(ngModel)]="price_colones">
+            </div>
+            <div class="col-lg-3">
+                <label for="form-label">Precio en dólares:</label>
+                <!-- input en dolares -->
+                <input type="text" class="form-control from-control-solid from-control-lg" name="price_usd"
+                    placeholder="$" autocomplete="off" [(ngModel)]="price_usd">
+            </div>
+
+            <div class="col-lg-4">
+                <div class="row">
+                    <div class="col-12">
+                        <label class="form-label">Imagen de Portada: </label>
+                        <div class="custom-file">
+                            <input type="file" class="custom-file-input" id="customFile"
+                                accept=".jpeg, .bmp, .jpg, .png, .gif, .webp" (change)="processFile($event)">
+                            <label class="custom-file-label" for="customFile">Seleccione el archivo</label>
+                        </div>
+                    </div>
+                    <div class="COL-12 py-2" *ngIf="imagen_pre">
+                        <img [src]="imagen_pre" class="w-100" alt="">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <div class="col-5">
+                <label class="form-label">Resumen del Producto:</label>
+                <textarea class="form-control" name="descriptions" [(ngModel)]="resumen" rows="4"></textarea>
+            </div>
+            <div class="col-6">
+                <label class="form-label">Descripción:</label>
+                <editor
+                [(ngModel)]="description"
+                [init]="{
+                    height: 250,
+                    language: 'es',
+                    plugins: [
+                        'advlist autolink lists link image charmap print preview anchor',
+                        'searchreplace visualblocks code fullscreen',
+                        'insertdatetime media table paste code help wordcount'
+                    ],
+                    toolbar:
+                        'undo redo | formatselect | bold italic backcolor | \
+                        alignleft aligncenter alignright alignjustify | \
+                        bullist numlist outdent indent | removeformat | help'
+                    }"
+                ></editor>
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <div class="col-6">
+                <label class="form-label">Etiquetas:</label>
+                <div class="d-flex" >
+                    <input type="text" class="form-control from-control-solid from-control-lg w-50"  name="TAGS"
+                    placeholder="TAGS" autocomplete="off" [(ngModel)]="text">
+                    <button class="ml-5 btn btn-sm btn-primary" (click)="addTags()">+</button>
+                </div>
+
+                <div class="table-responsive w-50">
+                    <table class="table table-head-custom table-vertical-center" id="kt_advance_table_widget_1">
+                        <thead>
+                            <tr class="text-left">
+                                <th>Palabra</th>
+                                <th>Acción</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let tag of tags;let i=index">
+                                <td>{{ tag }}</td>
+                                <td>
+                                    <button class="ml-5 btn btn-sm btn-danger" (click)="removeTags(i)">-</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="col-6">
+                <label class="form-label">Imagenes:</label>
+                <div class="d-flex">
+                    <div class="custom-file">
+                        <input type="file" class="custom-file-input" id="customFile"
+                            accept=".jpeg, .bmp, .jpg, .png, .gif, .webp" (change)="addFile($event)">
+                        <label class="custom-file-label" for="customFile">Seleccione el archivo</label>
+                    </div>
+                    
+                    <button class="ml-5 btn btn-sm btn-primary" (click)="addImages()">+</button>
+                </div>
+                <span *ngIf="img_files"><b>Imagen: {{ img_files.name }}</b></span>
+                <div class="table-responsive w-100">
+                    <table class="table table-head-custom table-vertical-center" id="kt_advance_table_widget_1">
+                        <thead>
+                            <tr class="text-left">
+                                <th>Imagen</th>
+                                <th>Nombre</th>
+                                <th>Acción</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let imagen_ of images_files;let i=index">
+                                <td>
+                                    <img [src]="imagen_.show" class="w-25" alt="">
+                                </td>
+                                <td>{{ imagen_.file.name }}</td>
+                                <td>
+                                    <button class="ml-5 btn btn-sm btn-danger" (click)="removeImages(i)">-</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <div class="col-6">
+                <button class="btn btn-md btn-primary"  (click)="createProduct()" >Cargar Producto</button>
+            </div>
+        </div>
+    </div>
+</div>

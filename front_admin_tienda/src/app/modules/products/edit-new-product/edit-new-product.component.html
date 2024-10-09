@@ -1,0 +1,294 @@
+<div class="card card-custom gutter-b">
+    <div class="card-header">
+        <div class="card-title">
+            <h3 class="card-label"><i class="icon-2x text-dark-50 flaticon2-tools-and-utensils mx-2"></i> Editar Producto :</h3>
+        </div>
+    </div>
+    <div class="card-body">
+        <ng-container *ngIf="isLoading$ | async">
+            <span class="spinner spinner-lg spinner-success"></span>
+        </ng-container>
+        <div class="form-group row">
+            <div class="col-lg-5">
+                <label for="form-label">Nombre del Producto:</label>
+                <!-- input para el nombre del producto -->
+                <input type="text" class="form-control from-control-solid from-control-lg" name="title"
+                    placeholder="Nombre" autocomplete="off" [(ngModel)]="title">
+            </div>
+
+            <div class="col-lg-3">
+                <label for="form-label">SKU:</label>
+                <!-- input para el sku -->
+                <input type="text" class="form-control from-control-solid from-control-lg" name="sku" placeholder="sku"
+                    autocomplete="off" [(ngModel)]="sku">
+            </div>
+
+            <div class="col-lg-3">
+                <label for="form-label">Categoría:</label>
+                <select name="categorie_id" class="form-control form-control-solid form-control-lg"
+                    [(ngModel)]="categorie_id">
+                    <option value="">Ninguna</option>
+                    <ng-container *ngFor="let categorie of categories">
+                        <option [value]="categorie.id">{{ categorie.name }}</option>
+                    </ng-container>
+                    <option value="">Ninguna</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <div class="col-lg-3">
+                <label for="form-label">Precio en Colones:</label>
+                <!-- input en colones -->
+                <input type="text" class="form-control from-control-solid from-control-lg" name="price_colones"
+                    placeholder="₡" autocomplete="off" [(ngModel)]="price_colones">
+            </div>
+            <div class="col-lg-3">
+                <label for="form-label">Precio en dólares:</label>
+                <!-- input en dolares -->
+                <input type="text" class="form-control from-control-solid from-control-lg" name="price_usd"
+                    placeholder="$" autocomplete="off" [(ngModel)]="price_usd">
+            </div>
+
+            <div class="col-3">
+                <label class="form-label">Estado del Producto : </label>
+                <select name="categorie_id" class="form-control form-control-solid form-control-lg" [(ngModel)]="state">
+                    <option value="1">DEMO</option>
+                    <option value="2">PUBLICO</option>
+                    <option value="3">BLOQUEADO</option>
+                </select>
+            </div>
+
+            <div class="col-lg-4">
+                <div class="row">
+                    <div class="col-12">
+                        <label class="form-label">Imagen de Portada: </label>
+                        <div class="custom-file">
+                            <input type="file" class="custom-file-input" id="customFile"
+                                accept=".jpeg, .bmp, .jpg, .png, .gif, .webp" (change)="processFile($event)">
+                            <label class="custom-file-label" for="customFile">Seleccione el archivo</label>
+                        </div>
+                    </div>
+                    <div class="COL-12 py-2" *ngIf="imagen_pre">
+                        <img [src]="imagen_pre" class="w-100" alt="">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <div class="col-5">
+                <label class="form-label">Resumen del Producto:</label>
+                <textarea class="form-control" name="descriptions" [(ngModel)]="resumen" rows="4"></textarea>
+            </div>
+            <div class="col-6">
+                <label class="form-label">Descripción:</label>
+                <editor
+                [(ngModel)]="description"
+                [init]="{
+                    height: 250,
+                    language: 'es',
+                    plugins: [
+                        'advlist autolink lists link image charmap print preview anchor',
+                        'searchreplace visualblocks code fullscreen',
+                        'insertdatetime media table paste code help wordcount'
+                    ],
+                    toolbar:
+                        'undo redo | formatselect | bold italic backcolor | \
+                        alignleft aligncenter alignright alignjustify | \
+                        bullist numlist outdent indent | removeformat | help'
+                    }"
+                ></editor>
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <div class="col-6">
+                <label class="form-label">Etiquetas:</label>
+                <div class="d-flex" >
+                    <input type="text" class="form-control from-control-solid from-control-lg w-50"  name="TAGS"
+                    placeholder="TAGS" autocomplete="off" [(ngModel)]="text">
+                    <button class="ml-5 btn btn-sm btn-primary" (click)="addTags()">+</button>
+                </div>
+
+                <div class="table-responsive w-50">
+                    <table class="table table-head-custom table-vertical-center" id="kt_advance_table_widget_1">
+                        <thead>
+                            <tr class="text-left">
+                                <th>Palabra</th>
+                                <th>Acción</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let tag of tags;let i=index">
+                                <td>{{ tag }}</td>
+                                <td>
+                                    <button class="ml-5 btn btn-sm btn-danger" (click)="removeTags(i)">-</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="col-6">
+                <label class="form-label">Imagenes:</label>
+                <div class="d-flex">
+                    <div class="custom-file">
+                        <input type="file" class="custom-file-input" id="customFile"
+                            accept=".jpeg, .bmp, .jpg, .png, .gif, .webp" (change)="addFile($event)">
+                        <label class="custom-file-label" for="customFile">Seleccione el archivo</label>
+                    </div>
+                    
+                    <button class="ml-5 btn btn-sm btn-primary" (click)="addImages()">+</button>
+                </div>
+                <span *ngIf="img_files"><b>Imagen: {{ img_files.name }}</b></span>
+                <div class="table-responsive w-100">
+                    <table class="table table-head-custom table-vertical-center" id="kt_advance_table_widget_1">
+                        <thead>
+                            <tr class="text-left">
+                                <th>Imagen</th>
+                                <th>Nombre</th>
+                                <th>Acción</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let imagen_ of images_files;let i=index">
+                                <td>
+                                    <img [src]="imagen_.show" class="w-25" alt="">
+                                </td>
+                                <td>{{ imagen_.file.name }}</td>
+                                <td>
+                                    <button class="ml-5 btn btn-sm btn-danger" (click)="removeImages(imagen_)">-</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group row">
+
+            <div class="col-12">
+                <div class="form-group">
+                    <label>INVENTARIO</label>
+                    <div class="radio-inline">
+                        <label class="radio">
+                            <input type="radio" name="radiosC" [checked]="checked_inventario == 1" value="1" (click)="checkedInventario(1)">
+                            <span></span>
+                            INVENTARIO INDIVIDUAL
+                        </label>
+                        <label class="radio">
+                            <input type="radio" name="radiosC" [checked]="checked_inventario == 2" value="2" (click)="checkedInventario(2)">
+                            <span></span>
+                            INVENTARIO MULTIPLE
+                        </label>
+                        
+                    </div>
+                    <span class="form-text text-muted">Selecciona una opción</span>
+                </div>
+            </div>
+            <div class="col-12 py-3" *ngIf="checked_inventario == 1">
+                <div class="row">
+                    <div class="col-3">
+                        <label class="form-label">STOCK INDIVIDUAL: </label>
+                        <input type="number"
+                            class="form-control form-control-solid form-control-lg"
+                            name="stock_individual"
+                            placeholder="100"
+                            autocomplete="off"
+                            [(ngModel)]="stock_individual">
+                    </div>
+                </div>
+            </div>
+        
+            <div class="col-6">
+                <button class="btn btn-md btn-primary"  (click)="createProduct()" >Guardar Cambios</button>
+            </div>
+        </div>
+
+        <!--Registro del Inventario-->
+        <div class="form-group row" *ngIf="checked_inventario == 2">
+            <div class="col-2">
+                <label class="form-label">Talla : </label>
+                <select name="product_size_id" (change)="changeTalla($event.target.value)" class="form-control form-control-solid form-control-lg" [(ngModel)]="product_size_id">
+                    <option value="">Ninguno</option>
+                    <ng-container *ngFor="let item of products_color_sizes">
+                        <option [value]="item.id">{{ item.name }}</option>
+                    </ng-container>
+                    
+                </select>
+            </div>
+            <div class="col-3" *ngIf="is_selected_dimension">
+                <label class="form-label">Nueva talla: </label>
+                <input type="text"
+                    class="form-control form-control-solid form-control-lg"
+                    name="new_nombre"
+                    placeholder="XL,L,M,S"
+                    autocomplete="off"
+                    [(ngModel)]="new_nombre"
+                >
+            </div>
+            <div class="col-2">
+                <label class="form-label">Color : </label>
+                <select name="product_color_id" class="form-control form-control-solid form-control-lg" [(ngModel)]="product_color_id">
+                    <option value="">Ninguno</option>
+                    <ng-container *ngFor="let item of products_colors">
+                        <option [value]="item.id">{{ item.name }}</option>
+                    </ng-container>
+                </select>
+            </div>
+            <div class="col-3">
+                <label class="form-label">STOCK: </label>
+                <input type="number"
+                    class="form-control form-control-solid form-control-lg"
+                    name="stock"
+                    placeholder="100"
+                    autocomplete="off"
+                    [(ngModel)]="stock"
+                >
+            </div>
+            <div class="col-2">
+                <button class="btn btn-sm btn-info" (click)="addInventario()">+</button>
+            </div>
+            
+            <!--Lista del Inventario-->
+            <div class="col-12">
+                <div class="table-responsive w-100">
+                    <table class="table table-head-custom table-vertical-center" id="kt_advance_table_widget_1">
+                        <thead>
+                            <tr class="text-left">
+                                <th>NOMBRE</th>
+                                <th></th>
+                                <th>CANTIDAD</th>
+                                <th>ACCIÓN</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <ng-container *ngFor="let inventario of product_inventaries;let i=index">
+                                <tr style="background: rgb(2, 230, 247);">
+                                    <td>{{ inventario.name }}</td>
+                                    <td></td>
+                                    <td>{{ inventario.total }}</td>
+                                    <td>
+                                        <button class="ml-5 btn btn-sm btn-primary" (click)="OPENEDIT(inventario)">Editar</button>
+                                        <button class="ml-5 btn btn-sm btn-danger" (click)="OPENEDELETE(inventario)">Eliminar</button>
+                                    </td>
+                                </tr>
+                                <tr *ngFor="let varT of inventario.variaciones">
+                                    <td></td>
+                                    <td>{{ varT.product_color.name }}</td>
+                                    <td>{{ varT.stock }}</td>
+                                    <td>
+                                        <button class="ml-5 btn btn-sm btn-primary" (click)="OPENEDITSUB(varT,inventario)">Editar</button>
+                                        <button class="ml-5 btn btn-sm btn-danger" (click)="OPENEDELETESUB(varT,inventario)">Eliminar</button>
+                                    </td>
+                                </tr>
+                            </ng-container>                  
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>     
+    </div>
+</div>

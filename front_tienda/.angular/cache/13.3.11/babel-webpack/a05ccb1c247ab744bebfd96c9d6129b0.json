@@ -1,0 +1,1 @@
+{"ast":null,"code":"export const environment = {\n  production: true,\n  URL_SERVICES: 'https://api.january-29.com/api',\n  ///Declaracion del url del backend\n  URL_BACKEND: 'https://api.january-29.com',\n  URL_FRONTEND: 'https://january-29.com'\n};","map":null,"metadata":{},"sourceType":"module"}
